@@ -26,7 +26,14 @@ const watch = {
                 test: /\.js$/,
                 enforce: 'pre',
                 exclude: /node_modules/,
-                loader: 'eslint-loader'
+                loader: 'eslint-loader',
+                options: {
+                    failOnWarning: false,
+                    failOnError: false,
+                    emitError: false,
+                    emitWarning: false,
+                    quite: true
+                }
             }
         ]
     },

@@ -1,0 +1,129 @@
+<!-- <div ui-view="form"></div> -->
+<at-panel>
+    <at-panel-heading hide-dismiss="true">
+        {{ vm.panelTitle }}
+    </at-panel-heading>
+
+    <at-panel-body>
+        <at-list>
+            <at-row ng-repeat="template in vm.templates.results">
+                <div class="at-Row-items">
+                    <at-row-item
+                        header-value="{{ template.name }}"
+                        header-link="/#/templates/{{ template.id }}"
+                        header-tag="Playbook Run (TODO)">
+                    </at-row-item>
+                    <at-row-item
+                        label-value="Activity"
+                        smart-status="template">
+                    </at-row-item>
+                    <at-row-item
+                        label-value="Inventory"
+                        value="{{ template.summary_fields.inventory.name }}">
+                    </at-row-item>
+                    <at-row-item
+                        label-value="Project"
+                        value="{{ template.summary_fields.project.name }}">
+                    </at-row-item>
+                    <at-row-item
+                        label-value="Credential"
+                        value="TODO">
+                    </at-row-item>
+                    <at-row-item
+                        label-value="Last Modified"
+                        value="{{ template.modified }} by {{ template.summary_fields.modified_by.username }}">
+                    </at-row-item>
+                    <at-row-item
+                        label-value="Last Used"
+                        value="TODO by TODO">
+                    </at-row-item>
+                    <at-row-item
+                        label-value="Labels"
+                        value="TODO">
+                    </at-row-item>
+                </div>
+                <div class="at-Row-actions">
+                    <at-row-action icon="icon-launch"></at-row-action>
+                    <at-row-action icon="fa-copy"></at-row-action>
+                    <at-row-action icon="fa-trash"></at-row-action>
+                </div>
+            </at-row>
+            <at-row>
+                <div class="at-Row-items">
+                    <at-row-item header-value="ben_test" header-tag="Playbook Run"></at-row-item>
+                    <at-row-item label-value="Activity" value="TODO"></at-row-item>
+                    <at-row-item label-value="Inventory" value="ben_inventory_test"></at-row-item>
+                    <at-row-item label-value="Project" value="ansible-it"></at-row-item>
+                    <at-row-item label-value="Credential" value="TODO"></at-row-item>
+                    <at-row-item label-value="Last Modified" value="06/15/2017 12:15PM by jlaska">
+                    </at-row-item>
+                    <at-row-item label-value="Last Used" value="06/21/2017 2:45PM by jmitchell">
+                    </at-row-item>
+                    <at-row-item label-value="Labels" value="TODO"></at-row-item>
+                </div>
+                <div class="at-Row-actions">
+                    <at-row-action icon="icon-launch"></at-row-action>
+                    <at-row-action icon="fa-copy"></at-row-action>
+                    <at-row-action icon="fa-trash"></at-row-action>
+                </div>
+            </at-row>
+            <at-row>
+                <div class="at-Row-items">
+                    <at-row-item header-value="ben_test" header-tag="Playbook Run"></at-row-item>
+                    <at-row-item label-value="Activity" value="TODO"></at-row-item>
+                    <at-row-item label-value="Inventory" value="ben_inventory_test"></at-row-item>
+                    <at-row-item label-value="Project" value="ansible-it"></at-row-item>
+                    <at-row-item label-value="Credential" value="TODO"></at-row-item>
+                    <at-row-item label-value="Last Modified" value="06/15/2017 12:15PM by jlaska">
+                    </at-row-item>
+                    <at-row-item label-value="Last Used" value="06/21/2017 2:45PM by jmitchell">
+                    </at-row-item>
+                    <at-row-item label-value="Labels" value="TODO"></at-row-item>
+                </div>
+                <div class="at-Row-actions">
+                    <at-row-action icon="icon-launch"></at-row-action>
+                    <at-row-action icon="fa-copy"></at-row-action>
+                    <at-row-action icon="fa-trash"></at-row-action>
+                </div>
+            </at-row>
+            <at-row>
+                <div class="at-Row-items">
+                    <at-row-item header-value="ben_test" header-tag="Playbook Run"></at-row-item>
+                    <at-row-item label-value="Activity" value="TODO"></at-row-item>
+                    <at-row-item label-value="Inventory" value="ben_inventory_test"></at-row-item>
+                    <at-row-item label-value="Project" value="ansible-it"></at-row-item>
+                    <at-row-item label-value="Credential" value="TODO"></at-row-item>
+                    <at-row-item label-value="Last Modified" value="06/15/2017 12:15PM by jlaska">
+                    </at-row-item>
+                    <at-row-item label-value="Last Used" value="06/21/2017 2:45PM by jmitchell">
+                    </at-row-item>
+                    <at-row-item label-value="Labels" value="TODO"></at-row-item>
+                </div>
+                <div class="at-Row-actions">
+                    <at-row-action icon="icon-launch"></at-row-action>
+                    <at-row-action icon="fa-copy"></at-row-action>
+                    <at-row-action icon="fa-trash"></at-row-action>
+                </div>
+            </at-row>
+            <at-row>
+                <div class="at-Row-items">
+                    <at-row-item header-value="ben_test" header-tag="Playbook Run"></at-row-item>
+                    <at-row-item label-value="Activity" value="TODO"></at-row-item>
+                    <at-row-item label-value="Inventory" value="ben_inventory_test"></at-row-item>
+                    <at-row-item label-value="Project" value="ansible-it"></at-row-item>
+                    <at-row-item label-value="Credential" value="TODO"></at-row-item>
+                    <at-row-item label-value="Last Modified" value="06/15/2017 12:15PM by jlaska">
+                    </at-row-item>
+                    <at-row-item label-value="Last Used" value="06/21/2017 2:45PM by jmitchell">
+                    </at-row-item>
+                    <at-row-item label-value="Labels" value="TODO"></at-row-item>
+                </div>
+                <div class="at-Row-actions">
+                    <at-row-action icon="icon-launch"></at-row-action>
+                    <at-row-action icon="fa-copy"></at-row-action>
+                    <at-row-action icon="fa-trash"></at-row-action>
+                </div>
+            </at-row>
+        </at-list>
+    </at-panel-body>
+</at-panel>

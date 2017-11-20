@@ -14,6 +14,7 @@ import Inventory from '~models/Inventory';
 import InventoryScript from '~models/InventoryScript';
 
 import ModelsStrings from '~models/models.strings';
+import UnifiedJobTemplate from '~models/UnifiedJobTemplate';
 
 const MODULE_NAME = 'at.lib.models';
 
@@ -34,5 +35,6 @@ angular
     .service('InventoryModel', Inventory)
     .service('InventoryScriptModel', InventoryScript)
     .service('ModelsStrings', ModelsStrings);
+    .service('UnifiedJobTemplateModel', UnifiedJobTemplate);
 
 export default MODULE_NAME;
