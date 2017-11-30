@@ -15,6 +15,7 @@ function atRowItem () {
             headerTag: '@',
             labelValue: '@',
             value: '@',
+            valueLink: '@',
             smartStatus: '=?'
         }
         // link
