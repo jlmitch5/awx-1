@@ -1,17 +1,62 @@
-<!-- <div ui-view="form"></div> -->
+<div ui-view="form"></div>
 <at-panel>
     <at-panel-heading hide-dismiss="true">
-        {{ vm.panelTitle }}
+        TEMPLATES
     </at-panel-heading>
 
     <at-panel-body>
+        <div class="at-List-toolbar">
+            <smart-search
+                class="at-List-search"
+                django-model="unified_job_templates"
+                base-path="unified_job_templates"
+                iterator="template"
+                list="list"
+                dataset="template_dataset"
+                collection="collection"
+                search-tags="searchTags">
+            </smart-search>
+            <!-- TODO: only show when permission -->
+            <div class="at-List-toolbarAction">
+                <button
+                    type="button"
+                    class="at-List-toolbarActionButton at-Button--success"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                        &#43; ADD
+                        <span class="at-List-toolbarDropdownCarat"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu at-List-toolbarActionDropdownMenu">
+                    <li>
+                        <a ui-sref="templates.addJobTemplate">
+                            Job Template
+                        </a>
+                    </li>
+                    <li>
+                        <a ui-sref="templates.addWorkflowJobTemplate">
+                            Workflow Template
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <at-list>
-            <at-row ng-repeat="template in vm.templates.results">
+            <at-row ng-repeat="template in templates"
+                ng-class="{'at-Row--active': (template.id === vm.activeId)}">
                 <div class="at-Row-items">
                     <at-row-item
                         header-value="{{ template.name }}"
-                        header-link="/#/templates/{{ template.id }}"
-                        header-tag="{{ template.type }}">
+                        header-link="/#/templates/job_template/{{ template.id }}"
+                        header-tag="{{ vm.templateTypes[template.type] }}"
+                        ng-if="template.type === 'job_template'">
+                    </at-row-item>
+                    <at-row-item
+                        header-value="{{ template.name }}"
+                        header-link="/#/templates/workflow/{{ template.id }}"
+                        header-tag="{{ vm.templateTypes[template.type] }}"
+                        ng-if="template.type === 'workflow_job_template'">
                     </at-row-item>
                     <at-row-item
                         label-value="Activity"
@@ -20,29 +65,24 @@
                     <at-row-item
                         label-value="Inventory"
                         value="{{ template.summary_fields.inventory.name }}"
-                        value-link="/#/inventories/{{ template.summary_fields.inventory.id }}">
+                        value-link="/#/inventories/inventory/{{ template.summary_fields.inventory.id }}">
                     </at-row-item>
                     <at-row-item
                         label-value="Project"
                         value="{{ template.summary_fields.project.name }}"
                         value-link="/#/projects/{{ template.summary_fields.project.id }}">
                     </at-row-item>
-                    <!-- <at-row-item
-                        label-value="Credential"
-                        value="TODO">
-                    </at-row-item> -->
                     <at-row-item
                         label-value="Last Modified"
-                        value="{{ template.modified }} by {{ template.summary_fields.modified_by.username }}">
+                        value="{{ vm.getModified(template) }}">
                     </at-row-item>
-                    <at-row-item
+                    <!-- TODO: add in last used once available from the api -->
+                    <!-- <at-row-item
                         label-value="Last Used"
                         value="TODO by TODO">
-                    </at-row-item>
-                    <at-row-item
-                        label-value="Labels"
-                        value="TODO">
-                    </at-row-item>
+                    </at-row-item> -->
+                    <labels-list class="LabelList" show-delete="false" is-row-item="true">
+                    </labels-list>
                 </div>
                 <div class="at-Row-actions">
                     <at-row-action icon="icon-launch"></at-row-action>

@@ -9,7 +9,7 @@ function atRow () {
         replace: true,
         transclude: true,
         templateUrl,
-        // link
+        scope: {}
     };
 }
 

@@ -34,7 +34,7 @@ angular
     .service('InventorySourceModel', InventorySource)
     .service('InventoryModel', Inventory)
     .service('InventoryScriptModel', InventoryScript)
-    .service('ModelsStrings', ModelsStrings);
+    .service('ModelsStrings', ModelsStrings)
     .service('UnifiedJobTemplateModel', UnifiedJobTemplate);
 
 export default MODULE_NAME;

@@ -1,3 +1,7 @@
+.at-List {
+    margin-top: 25px;
+}
+
 .at-List-toolbar {
     width: 100%;
     display: flex;
@@ -5,25 +9,55 @@
     margin-bottom: 20px;
 }
 
+.at-List-search {
+    flex: auto;
+}
+
 .at-List-toolbarAction {
     margin-left: 20px;
-    padding: 7px;
-    background: black;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
     height: 30px;
-    width: 30px;
+    border-radius: 5px;
+    position: relative;
+}
 
-    i {
-        font-size: 19px;
-        color: white;
-    }
+.at-List-toolbarActionButton {
+    border-radius: 5px;
+}
+
+.at-List-toolbarDropdownCarat {
+    margin-left: 5px;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    border-top: 4px dashed;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+
+.at-List-toolbarActionDropdownMenu {
+    position: absolute;
+    float: right;
+    right: 0;
+    left: auto;
+    z-index: 1000;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: 14px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    background-clip: padding-box;
 }
 
 .at-List-container {
-    border: 1px solid black;
+    border: 1px solid #b7b7b7;
     border-radius: 5px;
 }
 
@@ -35,8 +69,16 @@
     padding: 10px 20px;
 }
 
+.at-Row--active {
+    border-left: 5px solid #1778c3;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
 .at-Row ~ .at-Row {
-    border-top: 1px solid black;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-top: 1px solid #b7b7b7;
 }
 
 .at-RowItem {
@@ -48,6 +90,10 @@
 .at-RowItem--isHeader {
     margin-bottom: 5px;
     line-height: 15px;
+}
+
+.at-RowItem--labels {
+    line-height: 17px;
 }
 
 .at-RowItem-header {
@@ -70,6 +116,7 @@
 .at-RowItem-label {
     text-transform: uppercase;
     width: 120px;
+    color: #848992;
 }
 
 .at-RowItem-value {
@@ -82,16 +129,21 @@
 .at-RowAction {
     margin-left: 20px;
     padding: 7px;
-    background: black;
+    background: white;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 5px;
     height: 30px;
     width: 30px;
+    cursor: pointer;
 
     i {
         font-size: 19px;
-        color: white;
+        color: #848992;
+    }
+
+    i:hover {
+        color: #1778c3;
     }
 }

@@ -22,6 +22,7 @@ import CompletedJobsList from './completed-jobs.list';
 import InventorySourcesList from './inventory-sources.list';
 import TemplateList from './templates.list';
 import TemplatesStrings from './templates.strings';
+import listRoute from '~features/templates/list.route.js';
 
 export default
 angular.module('templates', [surveyMaker.name, templatesList.name, jobTemplates.name, labels.name, workflowAdd.name, workflowEdit.name,
@@ -893,11 +894,13 @@ angular.module('templates', [surveyMaker.name, templatesList.name, jobTemplates.
                     addWorkflow,
                     editWorkflow
                 ]).then((generated) => {
+                    console.log(listRoute);
                     return {
                         states: _.reduce(generated, (result, definition) => {
                             return result.concat(definition.states);
                         }, [
-                            stateExtender.buildDefinition(templatesListRoute),
+                            stateExtender.buildDefinition(listRoute),
+                            // stateExtender.buildDefinition(templatesListRoute),
                             stateExtender.buildDefinition(workflowMaker),
                             stateExtender.buildDefinition(inventoryLookup),
                             stateExtender.buildDefinition(credentialLookup)

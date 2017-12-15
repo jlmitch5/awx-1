@@ -21,6 +21,7 @@ export default ['$scope', '$rootScope', '$log', 'Rest', 'Alert',
         init();
 
         function init() {
+            console.log("got in that init");
             $scope.canAdd = false;
 
             rbacUiControlService.canAdd('projects')
@@ -96,6 +97,7 @@ export default ['$scope', '$rootScope', '$log', 'Rest', 'Alert',
         }
 
         $scope.reloadList = function(){
+            console.log("triggered reloadList");
             let path = GetBasePath(list.basePath) || GetBasePath(list.name);
             qs.search(path, $state.params[`${list.iterator}_search`])
             .then(function(searchResponse) {

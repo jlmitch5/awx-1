@@ -44,7 +44,9 @@ export default ['$stateParams', '$scope', '$state', 'GetBasePath', 'QuerySet', '
             qs.initFieldset(path, $scope.djangoModel).then((data) => {
                 $scope.models = data.models;
                 $scope.options = data.options.data;
-                $scope.$emit(`${$scope.list.iterator}_options`, data.options);
+                if ($scope.list) {
+                    $scope.$emit(`${$scope.list.iterator}_options`, data.options);
+                }
             });
             $scope.searchPlaceholder = $scope.disableSearch ? i18n._('Cannot search running job') : i18n._('Search');
 
@@ -74,6 +76,8 @@ export default ['$stateParams', '$scope', '$state', 'GetBasePath', 'QuerySet', '
                         // hits the forward/back navigation buttons in their browser.
                         queryset = trans.params('to')[`${$scope.iterator}_search`];
                         qs.search(path, queryset).then((res) => {
+                            console.log("loading latest smiles");
+                            console.log($scope);
                             $scope.dataset = res.data;
                             $scope.collection = res.data.results;
                         });
