@@ -334,9 +334,12 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+
 # Django OAuth Toolkit settings
-OAUTH2_PROVIDER_APPLICATION_MODEL = 'oauth2_provider.Application'
-OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = 'oauth2_provider.AccessToken'
+OAUTH2_PROVIDER_APPLICATION_MODEL = 'main.OAuth2Application'
+OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = 'main.OAuth2AccessToken'
+OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL = 'main.OAuth2RefreshToken'
+
 OAUTH2_PROVIDER = {}
 
 # LDAP server (default to None to skip using LDAP authentication).
@@ -479,10 +482,6 @@ CELERY_BEAT_SCHEDULE = {
     },
     'admin_checks': {
         'task': 'awx.main.tasks.run_administrative_checks',
-        'schedule': timedelta(days=30)
-    },
-    'authtoken_cleanup': {
-        'task': 'awx.main.tasks.cleanup_authtokens',
         'schedule': timedelta(days=30)
     },
     'cluster_heartbeat': {

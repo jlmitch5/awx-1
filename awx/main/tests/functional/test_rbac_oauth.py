@@ -85,7 +85,7 @@ class TestOAuthToken:
                 client_type='confidential', authorization_grant_type='password'
             )
             response = post(
-                reverse('api:user_me_oauth_application_token_list', kwargs={'pk': app.pk}),
+                reverse('api:o_auth2_application_token_list', kwargs={'pk': app.pk}),
                 {'scope': 'read'}, admin, expect=201
             )
             token = AccessToken.objects.get(token=response.data['token'])
@@ -109,6 +109,6 @@ class TestOAuthToken:
                 client_type='confidential', authorization_grant_type='password'
             )
             post(
-                reverse('api:user_me_oauth_application_token_list', kwargs={'pk': app.pk}),
+                reverse('api:o_auth2_application_token_list', kwargs={'pk': app.pk}),
                 {'scope': 'read'}, user_list[user_for_access], expect=201 if can_access else 403
             )

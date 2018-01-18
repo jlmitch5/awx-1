@@ -1,7 +1,7 @@
 # Copyright (c) 2017 Ansible, Inc.
 # All Rights Reserved.
 
-from django.conf.urls import url
+from django.conf.urls import url, include
 
 from oauth2_provider.urls import base_urlpatterns
 
