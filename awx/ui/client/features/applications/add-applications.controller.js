@@ -1,7 +1,21 @@
 function AddApplicationsController (models, $state, strings) {
     const vm = this || {};
 
-    const { application, organization } = models;
+    const { application, me, organization } = models;
+    const omit = [
+        'authorization_grant_type',
+        'client_id',
+        'client_secret',
+        'client_type',
+        'created',
+        'modified',
+        'related',
+        'skip_authorization',
+        'summary_fields',
+        'type',
+        'url',
+        'user'
+    ];
 
     vm.mode = 'add';
     vm.strings = strings;
@@ -13,7 +27,18 @@ function AddApplicationsController (models, $state, strings) {
         users: { _disabled: true }
     };
 
-    vm.form = application.createFormSchema('post');
+    vm.form = application.createFormSchema('post', { omit });
+
+    vm.form.organization = {
+        type: 'field',
+        label: 'Organization',
+        id: 'organization'
+    };
+    vm.form.description = {
+        type: 'String',
+        label: 'Description',
+        id: 'description'
+    };
 
     vm.form.disabled = !application.isCreatable();
 
@@ -24,16 +49,21 @@ function AddApplicationsController (models, $state, strings) {
 
     vm.form.name.required = true;
     vm.form.organization.required = true;
+    vm.form.redirect_uris.required = true;
+
     delete vm.form.name.help_text;
-    delete vm.form.description.help_text;
 
-    vm.form.uri = {
-        required: true,
-        label: 'URI',
-        help_text: 'Space-separated list of URIs for authenticating applications'
+    vm.form.save = data => {
+        const hiddenData = {
+            authorization_grant_type: 'implicit',
+            user: me.get('id'),
+            client_type: 'public'
+        };
+
+        const payload = _.merge(data, hiddenData);
+
+        return application.request('post', { data: payload });
     };
-
-    vm.form.save = data => application.request('post', { data });
 
     vm.form.onSaveSuccess = res => {
         $state.go('applications.edit', { application_id: res.data.id }, { reload: true });

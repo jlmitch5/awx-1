@@ -1,7 +1,4 @@
 let Base;
-let JobTemplate;
-let WorkflowJobTemplateNode;
-let InventorySource;
 
 function createFormSchema (method, config) {
     if (!config) {
@@ -26,32 +23,13 @@ function createFormSchema (method, config) {
     return schema;
 }
 
-function setDependentResources (id) {
-    this.dependentResources = [
-        {
-            model: new JobTemplate(),
-            params: {
-                project: id
-            }
-        },
-        {
-            model: new WorkflowJobTemplateNode(),
-            params: {
-                unified_job_template: id
-            }
-        },
-        {
-            model: new InventorySource(),
-            params: {
-                source_project: id
-            }
-        }
-    ];
+function setDependentResources () {
+    this.dependentResources = [];
 }
 
 function ApplicationModel (method, resource, config) {
     // TODO: change to applications
-    Base.call(this, 'projects');
+    Base.call(this, 'applications');
 
     this.Constructor = ApplicationModel;
     this.createFormSchema = createFormSchema.bind(this);
@@ -60,16 +38,8 @@ function ApplicationModel (method, resource, config) {
     return this.create(method, resource, config);
 }
 
-function ApplicationModelLoader (
-    BaseModel,
-    JobTemplateModel,
-    WorkflowJobTemplateNodeModel,
-    InventorySourceModel
-) {
+function ApplicationModelLoader (BaseModel) {
     Base = BaseModel;
-    JobTemplate = JobTemplateModel;
-    WorkflowJobTemplateNode = WorkflowJobTemplateNodeModel;
-    InventorySource = InventorySourceModel;
 
     return ApplicationModel;
 }

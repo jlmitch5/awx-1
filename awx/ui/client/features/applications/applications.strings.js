@@ -7,7 +7,9 @@ function ApplicationsStrings (BaseString) {
     ns.state = {
         LIST_BREADCRUMB_LABEL: t.s('APPLICATIONS'),
         ADD_BREADCRUMB_LABEL: t.s('CREATE APPLICATION'),
-        EDIT_BREADCRUMB_LABEL: t.s('EDIT APPLICATION')
+        EDIT_BREADCRUMB_LABEL: t.s('EDIT APPLICATION'),
+        USER_LIST_BREADCRUMB_LABEL: t.s('USERS'),
+        PERMISSIONS_BREADCRUMB_LABEL: t.s('PERMISSIONS')
     };
 
     ns.tab = {
@@ -16,20 +18,12 @@ function ApplicationsStrings (BaseString) {
         USERS: t.s('Users')
     };
 
-    ns.inputs = {
-        // TODO: update with docs' suggestion.
-        URI_HELP_TEXT: t.s('Application URI with which to authenticate')
-    };
-
     ns.add = {
         PANEL_TITLE: t.s('NEW APPLICATION')
     };
 
-    ns.permissions = {
-        TITLE: t.s('APPLICATIONS PERMISSIONS')
-    };
-
     ns.list = {
+        ROW_ITEM_LABEL_EXPIRED: t.s('EXPIRATION'),
         ROW_ITEM_LABEL_ORGANIZATION: t.s('ORG'),
         ROW_ITEM_LABEL_MODIFIED: t.s('LAST MODIFIED')
     };

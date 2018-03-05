@@ -28,7 +28,7 @@ function ListApplicationsController (
     const iterator = 'application';
     const key = 'application_dataset';
 
-    $scope.list = { iterator, name, basePath: 'projects' };
+    $scope.list = { iterator, name, basePath: 'applications' };
     $scope.collection = { iterator };
     $scope[key] = Dataset.data;
     vm.applicationsCount = Dataset.data.count;

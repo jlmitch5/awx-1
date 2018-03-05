@@ -10,8 +10,8 @@
         <div class="at-List-toolbar">
             <smart-search
                 class="at-List-search"
-                django-model="projects"
-                base-path="projects"
+                django-model="applications"
+                base-path="applications"
                 iterator="application"
                 list="list"
                 dataset="application_dataset"
@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        <at-list>
+        <at-list results="applications">
             <at-row ng-repeat="application in applications"
                 ng-class="{'at-Row--active': (application.id === vm.activeId)}">
                 <div class="at-Row-items">
@@ -56,7 +56,7 @@
         </at-list>
     </at-panel-body>
     <paginate
-        base-path="projects"
+        base-path="applications"
         iterator="application"
         dataset="application_dataset"
         collection="applications"
