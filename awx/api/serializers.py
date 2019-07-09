@@ -1389,7 +1389,7 @@ class ProjectSerializer(UnifiedJobTemplateSerializer, ProjectOptionsSerializer):
             organization = self.instance.organization
 
         if 'allow_override' in attrs and self.instance:
-            if attrs['allow_override'] != self.instance:
+            if attrs['allow_override'] != self.instance.allow_override:
                 raise serializers.ValidationError({
                     'allow_override': _('Branch override behavior of a project cannot be changed after creation.')})
 
