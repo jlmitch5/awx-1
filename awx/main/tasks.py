@@ -1569,17 +1569,6 @@ class RunJob(BaseTask):
         '''
         return getattr(settings, 'AWX_PROOT_ENABLED', False)
 
-    def copy_folders(self, project_path, galaxy_install_path, private_data_dir):
-        if project_path is None:
-            raise RuntimeError('project does not supply a valid path')
-        elif not os.path.exists(project_path):
-            raise RuntimeError('project path %s cannot be found' % project_path)
-        runner_project_folder = os.path.join(private_data_dir, 'project')
-        copy_tree(project_path, runner_project_folder)
-        if galaxy_install_path:
-            galaxy_run_path = os.path.join(private_data_dir, 'project', 'roles')
-            copy_tree(galaxy_install_path, galaxy_run_path)
-
     def pre_run_hook(self, job, private_data_dir):
         if job.inventory is None:
             error = _('Job could not start because it does not have a valid inventory.')
@@ -1596,8 +1585,6 @@ class RunJob(BaseTask):
             job = self.update_model(job.pk, status='failed', job_explanation=msg)
             raise RuntimeError(msg)
 
-        galaxy_install_path = None
-        git_repo = None
         project_path = job.project.get_project_path(check_if_exists=False)
         job_revision = job.project.scm_revision
         needs_sync = True
@@ -1606,21 +1593,20 @@ class RunJob(BaseTask):
             needs_sync = False
         elif not os.path.exists(project_path):
             logger.debug('Performing fresh clone of {} on this instance.'.format(job.project))
-            needs_sync = True
+        elif job.project.scm_revision:
+            logger.debug('Revision not known for {}, will sync with remote'.format(job.project))
         elif job.project.scm_type == 'git':
             git_repo = git.Repo(project_path)
-            if job.scm_branch and job.scm_branch != job.project.scm_branch and git_repo:
-                try:
-                    commit = git_repo.commit(job.scm_branch)
-                    job_revision = commit.hexsha
-                    logger.info('Skipping project sync for {} because commit is locally available'.format(job.log_format))
-                    needs_sync = False  # requested commit is already locally available
-                except (ValueError, BadGitName):
-                    pass
-            else:
-                if git_repo.head.commit.hexsha == job.project.scm_revision:
-                    logger.info('Source tree for for {} is already up to date'.format(job.log_format))
-                    needs_sync = False
+            try:
+                desired_revision = job.project.scm_revision
+                if job.scm_branch and job.scm_branch != job.project.scm_branch:
+                    desired_revision = job.scm_branch  # could be commit or not, but will try as commit
+                commit = git_repo.commit(desired_revision)
+                job_revision = commit.hexsha
+                logger.info('Skipping project sync for {} because commit is locally available'.format(job.log_format))
+                needs_sync = False
+            except (ValueError, BadGitName):
+                logger.debug('Needed commit for {} not in local source tree, will sync with remote'.format(job.log_format))
         # Galaxy requirements are not supported for manual projects
         if not needs_sync and job.project.scm_type:
             # see if we need a sync because of presence of roles
@@ -1629,6 +1615,7 @@ class RunJob(BaseTask):
                 logger.debug('Running project sync for {} because of galaxy role requirements.'.format(job.log_format))
                 needs_sync = True
 
+        galaxy_install_path = None
         if needs_sync:
             pu_ig = job.instance_group
             pu_en = job.execution_node
