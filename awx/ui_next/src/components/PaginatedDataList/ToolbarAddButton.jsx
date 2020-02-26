@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button, Tooltip } from '@patternfly/react-core';
 import { withI18n } from '@lingui/react';
 import { t } from '@lingui/macro';
+import { AddCircleOIcon } from '@patternfly/react-icons';
 
 function ToolbarAddButton({ linkTo, onClick, i18n }) {
   if (!linkTo && !onClick) {
@@ -17,18 +18,23 @@ function ToolbarAddButton({ linkTo, onClick, i18n }) {
         <Button
           component={Link}
           to={linkTo}
-          variant="primary"
+          variant="plain"
           aria-label={i18n._(t`Add`)}
         >
-          {i18n._(t`Add`)}
+          <AddCircleOIcon />
         </Button>
       </Tooltip>
     );
   }
   return (
-    <Button variant="primary" aria-label={i18n._(t`Add`)} onClick={onClick}>
-      {i18n._(t`Add`)}
+    <Button
+      onClick={onClick}
+      variant="plain"
+      aria-label={i18n._(t`Add`)}
+    >
+      <AddCircleOIcon />
     </Button>
+
   );
 }
 ToolbarAddButton.propTypes = {

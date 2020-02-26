@@ -209,8 +209,9 @@ function TemplateList({ i18n }) {
               {...props}
               showSelectAll
               showExpandCollapse
-              isAllSelected={isAllSelected}
               onSelectAll={handleSelectAll}
+              selectedItemCount={selected.length}
+              currentPageCount={templates.length}
               qsConfig={QS_CONFIG}
               additionalControls={[
                 ...(canAddJT || canAddWFJT ? [addButton] : []),

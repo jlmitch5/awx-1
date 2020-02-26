@@ -26,6 +26,24 @@ const DataToolbarGroup = styled(_DataToolbarGroup)`
   --pf-c-data-toolbar__group--spacer: 24px;
 `;
 
+const SelectAllContainer = styled.div`
+  align-self: stretch;
+  border: 1px solid var(--pf-global--BorderColor--300);
+  height: 36px;
+  display: flex;
+  padding: 0 9px;
+  white-space: nowrap;
+  border-bottom-color: var(--pf-global--BorderColor--200);
+
+  & .pf-c-check {
+    display: flex;
+  }
+
+  & label {
+    margin-left: 10px;
+  }
+`;
+
 class DataListToolbar extends React.Component {
   render() {
     const {
@@ -33,7 +51,8 @@ class DataListToolbar extends React.Component {
       searchColumns,
       sortColumns,
       showSelectAll,
-      isAllSelected,
+      selectedItemCount,
+      currentPageCount,
       isCompact,
       onSort,
       onSearch,
@@ -46,8 +65,8 @@ class DataListToolbar extends React.Component {
       i18n,
       qsConfig,
     } = this.props;
-
     const showExpandCollapse = onCompact && onExpand;
+
     return (
       <DataToolbar
         id={`${qsConfig.namespace}-list-toolbar`}
@@ -58,12 +77,15 @@ class DataListToolbar extends React.Component {
           {showSelectAll && (
             <DataToolbarGroup>
               <DataToolbarItem>
-                <Checkbox
-                  isChecked={isAllSelected}
-                  onChange={onSelectAll}
-                  aria-label={i18n._(t`Select all`)}
-                  id="select-all"
-                />
+                <SelectAllContainer>
+                  <Checkbox
+                    isChecked={currentPageCount === selectedItemCount}
+                    onChange={onSelectAll}
+                    aria-label={i18n._(t`Select all`)}
+                    id="select-all"
+                    label={selectedItemCount !== 0 ? `${selectedItemCount} selected` : null}
+                  />
+                </SelectAllContainer>
               </DataToolbarItem>
             </DataToolbarGroup>
           )}
@@ -94,7 +116,7 @@ class DataListToolbar extends React.Component {
               </Fragment>
             </DataToolbarGroup>
           )}
-          <DataToolbarGroup>
+          <DataToolbarGroup variant="icon-button-group">
             {additionalControls.map(control => (
               <DataToolbarItem key={control.key}>{control}</DataToolbarItem>
             ))}
@@ -111,7 +133,6 @@ DataListToolbar.propTypes = {
   searchColumns: SearchColumns.isRequired,
   sortColumns: SortColumns.isRequired,
   showSelectAll: PropTypes.bool,
-  isAllSelected: PropTypes.bool,
   isCompact: PropTypes.bool,
   onCompact: PropTypes.func,
   onExpand: PropTypes.func,
@@ -119,13 +140,14 @@ DataListToolbar.propTypes = {
   onReplaceSearch: PropTypes.func,
   onSelectAll: PropTypes.func,
   onSort: PropTypes.func,
+  selectedItemCount: PropTypes.number,
+  currentPageCount: PropTypes.number,
   additionalControls: PropTypes.arrayOf(PropTypes.node),
 };
 
 DataListToolbar.defaultProps = {
   clearAllFilters: null,
   showSelectAll: false,
-  isAllSelected: false,
   isCompact: false,
   onCompact: null,
   onExpand: null,
@@ -133,6 +155,8 @@ DataListToolbar.defaultProps = {
   onReplaceSearch: null,
   onSelectAll: null,
   onSort: null,
+  selectedItemCount: 0,
+  currentPageCount: 0,
   additionalControls: [],
 };
 

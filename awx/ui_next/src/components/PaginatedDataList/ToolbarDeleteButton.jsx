@@ -9,6 +9,7 @@ import {
   checkPropTypes,
 } from 'prop-types';
 import { Button, Tooltip } from '@patternfly/react-core';
+import { Remove2Icon } from '@patternfly/react-icons';
 import { withI18n } from '@lingui/react';
 import { t } from '@lingui/macro';
 import AlertModal from '../AlertModal';
@@ -133,12 +134,12 @@ class ToolbarDeleteButton extends React.Component {
         <Tooltip content={this.renderTooltip()} position="top">
           <div>
             <Button
-              variant="danger"
+              variant="plain"
               aria-label={i18n._(t`Delete`)}
               onClick={this.handleConfirmDelete}
               isDisabled={isDisabled}
             >
-              {i18n._(t`Delete`)}
+              <Remove2Icon />
             </Button>
           </div>
         </Tooltip>

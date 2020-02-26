@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Dropdown, DropdownPosition } from '@patternfly/react-core';
+import { Dropdown } from '@patternfly/react-core';
 import { ToolbarAddButton } from '@components/PaginatedDataList';
 
 function AddDropDownButton({ dropdownItems }) {
@@ -24,10 +24,9 @@ function AddDropDownButton({ dropdownItems }) {
   return (
     <div ref={element} key="add">
       <Dropdown
-        isPlain
-        isOpen={isOpen}
-        position={DropdownPosition.right}
         toggle={<ToolbarAddButton onClick={() => setIsOpen(!isOpen)} />}
+        isOpen={isOpen}
+        isPlain
         dropdownItems={dropdownItems.map(item => (
           <Link
             className="pf-c-dropdown__menu-item"
