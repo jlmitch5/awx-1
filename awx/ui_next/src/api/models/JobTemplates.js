@@ -82,6 +82,14 @@ class JobTemplates extends SchedulesMixin(
   destroySurvey(id) {
     return this.http.delete(`${this.baseUrl}${id}/survey_spec/`);
   }
+
+  readWebhookKey(id) {
+    return this.http.get(`${this.baseUrl}${id}/webhook_key/`);
+  }
+
+  updateWebhookKey(id) {
+    return this.http.post(`${this.baseUrl}${id}/webhook_key/`);
+  }
 }
 
 export default JobTemplates;
