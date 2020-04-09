@@ -41,7 +41,7 @@ import {
 import { JobTemplatesAPI, ProjectsAPI } from '@api';
 import LabelSelect from './LabelSelect';
 import PlaybookSelect from './PlaybookSelect';
-import WebhookSubForm from './WebhooksSubForm';
+import WebhookSubForm from './WebhookSubForm';
 
 const { origin } = document.location;
 
@@ -190,19 +190,11 @@ function JobTemplateForm({
     callbackUrl = `${origin}${path}`;
   }
 
-  if (
-    instanceGroupLoading ||
-    hasProjectLoading
-    // credentialContentLoading
-  ) {
+  if (instanceGroupLoading || hasProjectLoading) {
     return <ContentLoading />;
   }
 
-  if (
-    instanceGroupError ||
-    projectContentError
-    //  credentialContentError
-  ) {
+  if (instanceGroupError || projectContentError) {
     return <ContentError error={contentError} />;
   }
 
