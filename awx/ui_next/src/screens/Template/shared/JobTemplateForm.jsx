@@ -95,10 +95,6 @@ function JobTemplateForm({
   );
   const [jobTagsField, , jobTagsHelpers] = useField('job_tags');
   const [skipTagsField, , skipTagsHelpers] = useField('skip_tags');
-  const webhookService = useField('webhook_service');
-  const webhookUrl = useField('webhook_url');
-  const webhookKey = useField('webhook_key');
-  const webhookCredential = useField('webhook_credential');
 
   const {
     request: fetchProject,
@@ -523,24 +519,8 @@ function JobTemplateForm({
                       </span>
                     }
                     id="wfjt-enabled-webhooks"
-                    isChecked={
-                      Boolean(webhookService[0].value) || enableWebhooks
-                    }
-                    onChange={checked => {
-                      setEnableWebhooks(checked);
-                      webhookService[2].setValue(
-                        !checked ? '' : webhookService[1].initialValue
-                      );
-                      webhookUrl[2].setValue(
-                        !checked ? '' : webhookUrl[1].initialValue
-                      );
-                      webhookKey[2].setValue(
-                        !checked ? '' : webhookKey[1].initialValue
-                      );
-                      webhookCredential[2].setValue(
-                        !checked ? null : webhookCredential[1].initialValue
-                      );
-                    }}
+                    isChecked={Boolean(template.webhook_service) || enableWebhooks}
+                    onChange={checked => { setEnableWebhooks(checked) }}
                   />
                   <CheckboxField
                     id="option-concurrent"

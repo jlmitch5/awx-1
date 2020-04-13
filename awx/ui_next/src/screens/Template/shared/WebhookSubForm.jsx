@@ -65,6 +65,13 @@ function WebhookSubForm({ i18n, enableWebhooks }) {
     loadCredentialType();
   }, [loadCredentialType]);
 
+  useEffect(() => {
+    webhookServiceHelpers.setValue(webhookServiceField.initialValue || '');
+    webhookUrlHelpers.setValue(webhookUrlField.initialValue || '');
+    webhookKeyHelpers.setValue(webhookKeyField.initialValue || '');
+    webhookCredentialHelpers.setValue(webhookCredentialField.initialValue || null);
+  }, [enableWebhooks]);
+
   const changeWebhookKey = async () => {
     try {
       const {
