@@ -97,6 +97,10 @@ class LineChart extends Component {
             return formatted.concat({ DATE, RAN, FAIL, TOTAL });
         }, []);
         // Scale the range of the data
+        const largestY = data.reduce((a_max, b) => {
+            const b_max = Math.max(b.RAN > b.FAIL ? b.RAN : b.FAIL)
+            return a_max > b_max ? a_max : b_max;
+        }, 0);
         x.domain(
             d3.extent(data, function(d) {
                 return d.DATE;
@@ -104,9 +108,7 @@ class LineChart extends Component {
         );
         y.domain([
             0,
-            d3.max(data, function(d) {
-                return d.TOTAL * 1.15 || 8;
-            })
+            (largestY) > 4 ? largestY + Math.max((largestY / 10), 1) : 5
         ]);
 
         const successLine = d3
@@ -136,8 +138,9 @@ class LineChart extends Component {
         .call(
             d3
             .axisLeft(y)
-            .ticks(10)
+            .ticks((largestY) > 3 ? Math.min(largestY + Math.max((largestY / 10), 1), 10) : 5)
             .tickSize(-width)
+            .tickFormat(d3.format("d"))
         )
         .selectAll('line')
         .attr('stroke', '#d7d7d7');

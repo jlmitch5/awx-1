@@ -24,11 +24,11 @@ class Dashboard extends Component {
     const { i18n } = this.props;
     const { light } = PageSectionVariants;
     const lineChartData = [
-      {created: "2020-05-06", failed: 1, successful: 2, total: 3},
-      {created: "2020-05-07", failed: 1, successful: 3, total: 4},
-      {created: "2020-05-08", failed: 3, successful: 2, total: 5}
+      {created: "2020-05-06", failed: 1, successful: 1},
+      {created: "2020-05-07", failed: 1, successful: 2},
+      {created: "2020-05-08", failed: 3, successful: 1},
     ]
-    const clusterTimeFrame = 31;
+    const clusterTimeFrame = 30;
 
     return (
       <Fragment>
