@@ -1,13 +1,14 @@
 import 'styled-components/macro';
-import React from 'react';
+import React, { useState } from 'react';
 import { withI18n } from '@lingui/react';
 import { t, Trans } from '@lingui/macro';
 import styled from 'styled-components';
 import { useField } from 'formik';
-import { Alert, Form, FormGroup, TextInput } from '@patternfly/react-core';
+import { Alert, Form, FormGroup, TextInput, Select, SelectVariant, SelectOption } from '@patternfly/react-core';
 import { required } from '../../../../../../util/validators';
 
-import { FormFullWidthLayout } from '../../../../../../components/FormLayout';
+import { FormColumnLayout, FormFullWidthLayout } from '../../../../../../components/FormLayout';
+import Popover from '../../../../../../components/Popover';
 import AnsibleSelect from '../../../../../../components/AnsibleSelect';
 import InventorySourcesList from './InventorySourcesList';
 import JobTemplatesList from './JobTemplatesList';
@@ -44,6 +45,9 @@ function NodeTypeStep({ i18n }) {
   const [timeoutSecondsField, , timeoutSecondsHelpers] = useField(
     'timeoutSeconds'
   );
+
+  const [ isConvergenceOpen, setIsConvergenceOpen ] = useState(false);
+  const [ convergence, setConvergence ] = useState("all");
 
   const isValid = !approvalNameMeta.touched || !approvalNameMeta.error;
   return (
@@ -129,61 +133,95 @@ function NodeTypeStep({ i18n }) {
           onUpdateNodeResource={nodeResourceHelpers.setValue}
         />
       )}
-      {nodeTypeField.value === 'workflow_approval_template' && (
-        <Form css="margin-top: 20px;">
-          <FormFullWidthLayout>
-            <FormField
-              name="approvalName"
-              id="approval-name"
-              isRequired
-              validate={required(null, i18n)}
-              validated={isValid ? 'default' : 'error'}
-              label={i18n._(t`Name`)}
-            />
-            <FormField
-              name="approvalDescription"
-              id="approval-description"
-              label={i18n._(t`Description`)}
-            />
-            <FormGroup
-              label={i18n._(t`Timeout`)}
-              fieldId="approval-timeout"
-              name="timeout"
+      <Form css="margin-top: 20px;">
+        <FormColumnLayout>
+          {nodeTypeField.value === 'workflow_approval_template' && (
+            <FormFullWidthLayout>
+              <FormField
+                name="approvalName"
+                id="approval-name"
+                isRequired
+                validate={required(null, i18n)}
+                validated={isValid ? 'default' : 'error'}
+                label={i18n._(t`Name`)}
+              />
+              <FormField
+                name="approvalDescription"
+                id="approval-description"
+                label={i18n._(t`Description`)}
+              />
+              <FormGroup
+                label={i18n._(t`Timeout`)}
+                fieldId="approval-timeout"
+                name="timeout"
+              >
+                <div css="display: flex;align-items: center;">
+                  <TimeoutInput
+                    {...timeoutMinutesField}
+                    aria-label={i18n._(t`Timeout minutes`)}
+                    id="approval-timeout-minutes"
+                    min="0"
+                    onChange={(value, event) => {
+                      timeoutMinutesField.onChange(event);
+                    }}
+                    step="1"
+                    type="number"
+                  />
+                  <TimeoutLabel>
+                    <Trans>min</Trans>
+                  </TimeoutLabel>
+                  <TimeoutInput
+                    {...timeoutSecondsField}
+                    aria-label={i18n._(t`Timeout seconds`)}
+                    id="approval-timeout-seconds"
+                    min="0"
+                    onChange={(value, event) => {
+                      timeoutSecondsField.onChange(event);
+                    }}
+                    step="1"
+                    type="number"
+                  />
+                  <TimeoutLabel>
+                    <Trans>sec</Trans>
+                  </TimeoutLabel>
+                </div>
+              </FormGroup>
+            </FormFullWidthLayout>
+          )}
+          <FormGroup
+            fieldId="convergence"
+            label="Convergence"
+            isRequired
+            labelIcon={
+              <Popover
+                content={i18n._(
+                  t`If set to All then the node will only run if all of the parent nodes have met the criteria to reach this node.  If set to Any then the node will run when any one of the parent nodes have met the criteria to reach this node.`
+                )}
+              />
+            }
+          >
+            <Select
+              variant={SelectVariant.single}
+              isOpen={isConvergenceOpen}
+              selections={convergence}
+              onToggle={setIsConvergenceOpen}
+              onSelect={(event, selection) => {
+                setConvergence(selection);
+                setIsConvergenceOpen(false);
+              }}
+              aria-label={i18n._(t`Convergence select`)}
+              id={`convergence-select`}
             >
-              <div css="display: flex;align-items: center;">
-                <TimeoutInput
-                  {...timeoutMinutesField}
-                  aria-label={i18n._(t`Timeout minutes`)}
-                  id="approval-timeout-minutes"
-                  min="0"
-                  onChange={(value, event) => {
-                    timeoutMinutesField.onChange(event);
-                  }}
-                  step="1"
-                  type="number"
-                />
-                <TimeoutLabel>
-                  <Trans>min</Trans>
-                </TimeoutLabel>
-                <TimeoutInput
-                  {...timeoutSecondsField}
-                  aria-label={i18n._(t`Timeout seconds`)}
-                  id="approval-timeout-seconds"
-                  min="0"
-                  onChange={(value, event) => {
-                    timeoutSecondsField.onChange(event);
-                  }}
-                  step="1"
-                  type="number"
-                />
-                <TimeoutLabel>
-                  <Trans>sec</Trans>
-                </TimeoutLabel>
-              </div>
-            </FormGroup>
-          </FormFullWidthLayout>
-        </Form>
-      )}
+              <SelectOption key="all" value="all">
+                {i18n._(t`All`)}
+              </SelectOption>
+              <SelectOption key="any" value="any">
+                {i18n._(t`Any`)}
+              </SelectOption>
+            </Select>
+          </FormGroup>
+        </FormColumnLayout>
+      </Form>
     </>
   );
 }
