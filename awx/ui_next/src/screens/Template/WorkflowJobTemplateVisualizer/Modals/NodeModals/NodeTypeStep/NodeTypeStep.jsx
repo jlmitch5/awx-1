@@ -194,8 +194,25 @@ function NodeTypeStep({ i18n }) {
             isRequired
             labelIcon={
               <Popover
-                content={i18n._(
-                  t`If set to All then the node will only run if all of the parent nodes have met the criteria to reach this node.  If set to Any then the node will run when any one of the parent nodes have met the criteria to reach this node.`
+                content={(
+                  <>
+                    {i18n._(
+                      t`Preconditions for running this node when there are multiple parents. Refer to the`
+                    )}
+                    {' '}
+                    <a
+                      href="https://docs.ansible.com/ansible-tower/latest/html/userguide/workflow_templates.html#convergence-node"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      
+                      {i18n._(t`documentation`)}
+                    </a>
+                    {' '}
+                    {i18n._(
+                      t`for more info.`
+                    )}
+                  </>
                 )}
               />
             }
