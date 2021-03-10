@@ -116,6 +116,7 @@ function PromptDetail({ i18n, resource, launchConfig = {}, overrides = {} }) {
           label={i18n._(t`Timeout`)}
           value={formatTimeout(details?.timeout)}
         />
+        <Detail label={i18n._(t`Convergence`)} value={details.all_parents_must_converge ? i18n._(t`All`) : i18n._(t`Any`)} />
         {details?.type === 'project' && (
           <PromptProjectDetail resource={details} />
         )}

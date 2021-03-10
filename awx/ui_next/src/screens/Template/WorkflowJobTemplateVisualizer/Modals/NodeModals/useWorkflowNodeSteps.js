@@ -45,9 +45,11 @@ const getNodeToEditDefaultValues = (
     nodeToEdit?.fullUnifiedJobTemplate?.type === 'workflow_approval_template'
   ) {
     const timeout = nodeToEdit.fullUnifiedJobTemplate.timeout || 0;
+    const all_parents_must_converge = nodeToEdit.fullUnifiedJobTemplate.all_parents_must_converge || false;
     initialValues.approvalName = nodeToEdit.fullUnifiedJobTemplate.name || '';
     initialValues.approvalDescription =
       nodeToEdit.fullUnifiedJobTemplate.description || '';
+    initialValues.convergence = all_parents_must_converge ? 'all' : 'any';
     initialValues.timeoutMinutes = Math.floor(timeout / 60);
     initialValues.timeoutSeconds = timeout - Math.floor(timeout / 60) * 60;
 

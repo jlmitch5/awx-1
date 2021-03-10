@@ -45,9 +45,11 @@ function NodeTypeStep({ i18n }) {
   const [timeoutSecondsField, , timeoutSecondsHelpers] = useField(
     'timeoutSeconds'
   );
+  const [convergenceField, , convergenceFieldHelpers] = useField(
+    'convergence'
+  );
 
   const [ isConvergenceOpen, setIsConvergenceOpen ] = useState(false);
-  const [ convergence, setConvergence ] = useState("all");
 
   const isValid = !approvalNameMeta.touched || !approvalNameMeta.error;
   return (
@@ -220,10 +222,10 @@ function NodeTypeStep({ i18n }) {
             <Select
               variant={SelectVariant.single}
               isOpen={isConvergenceOpen}
-              selections={convergence}
+              selections={convergenceField.value}
               onToggle={setIsConvergenceOpen}
               onSelect={(event, selection) => {
-                setConvergence(selection);
+                convergenceFieldHelpers.setValue(selection);
                 setIsConvergenceOpen(false);
               }}
               aria-label={i18n._(t`Convergence select`)}

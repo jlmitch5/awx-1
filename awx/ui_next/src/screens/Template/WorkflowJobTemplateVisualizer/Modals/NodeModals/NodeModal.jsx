@@ -81,6 +81,7 @@ function NodeModalForm({
       delete values.approvalDescription;
       delete values.timeoutMinutes;
       delete values.timeoutSeconds;
+      delete values.convergence;
     }
 
     if (
@@ -357,6 +358,7 @@ const NodeModal = ({ onSave, i18n, askLinkType, title }) => {
         approvalDescription: '',
         timeoutMinutes: 0,
         timeoutSeconds: 0,
+        convergence: 'any',
         linkType: 'success',
         nodeResource: nodeToEdit?.fullUnifiedJobTemplate || null,
         nodeType: nodeToEdit?.fullUnifiedJobTemplate?.type || 'job_template',

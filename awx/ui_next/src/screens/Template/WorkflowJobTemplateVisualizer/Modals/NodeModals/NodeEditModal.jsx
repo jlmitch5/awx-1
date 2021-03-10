@@ -17,6 +17,7 @@ function NodeEditModal({ i18n }) {
       nodeType,
       timeoutMinutes,
       timeoutSeconds,
+      convergence,
       ...rest
     } = values;
     let node;
@@ -26,6 +27,7 @@ function NodeEditModal({ i18n }) {
           description: approvalDescription,
           name: approvalName,
           timeout: Number(timeoutMinutes) * 60 + Number(timeoutSeconds),
+          all_parents_must_converge: convergence === 'all',
           type: 'workflow_approval_template',
         },
       };
