@@ -35,10 +35,10 @@ function LineChart({ id, data, height, i18n, pageContext }) {
     const width = getWidth();
 
     function transition(path) {
-      path
-        .transition()
-        .duration(1000)
-        .attrTween('stroke-dasharray', tweenDash);
+      // path
+      //   .transition()
+      //   .duration(1000)
+      //   .attrTween('stroke-dasharray', tweenDash);
     }
 
     function tweenDash(...params) {

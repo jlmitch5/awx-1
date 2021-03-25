@@ -60,61 +60,31 @@ function Dashboard({ i18n }) {
   const [periodSelection, setPeriodSelection] = useState('month');
   const [jobTypeSelection, setJobTypeSelection] = useState('all');
   const [activeTabId, setActiveTabId] = useState(0);
-
-  const {
-    isLoading,
-    result: { jobGraphData, countData },
-    request: fetchDashboardGraph,
-  } = useRequest(
-    useCallback(async () => {
-      const [{ data }, { data: dataFromCount }] = await Promise.all([
-        DashboardAPI.readJobGraph({
-          period: periodSelection,
-          job_type: jobTypeSelection,
-        }),
-        DashboardAPI.read(),
-      ]);
-      const newData = {};
-      data.jobs.successful.forEach(([dateSecs, count]) => {
-        if (!newData[dateSecs]) {
-          newData[dateSecs] = {};
-        }
-        newData[dateSecs].successful = count;
-      });
-      data.jobs.failed.forEach(([dateSecs, count]) => {
-        if (!newData[dateSecs]) {
-          newData[dateSecs] = {};
-        }
-        newData[dateSecs].failed = count;
-      });
-      const jobData = Object.keys(newData).map(dateSecs => {
-        const [created] = new Date(dateSecs * 1000).toISOString().split('T');
-        newData[dateSecs].created = created;
-        return newData[dateSecs];
-      });
-      return {
-        jobGraphData: jobData,
-        countData: dataFromCount,
-      };
-    }, [periodSelection, jobTypeSelection]),
-    {
-      jobGraphData: [],
-      countData: {},
-    }
-  );
+  const [jobGraphDataState, setJobGraphDataState] = useState([{successful: 0, failed: 0, created: '2021-03-24'}, {successful: 1, failed: 1, created: '2021-03-25'}]);
 
   useEffect(() => {
-    fetchDashboardGraph();
-  }, [fetchDashboardGraph, periodSelection, jobTypeSelection]);
-  if (isLoading) {
-    return (
-      <PageSection>
-        <Card>
-          <ContentLoading />
-        </Card>
-      </PageSection>
-    );
-  }
+    setTimeout(() => {
+      // hacky way of creating new data point
+      const [{ created: lastDay }] = jobGraphDataState.slice(-1);
+      let tomorrow;
+      if (jobGraphDataState.length > 2) {
+        tomorrow = new Date(new Date(lastDay).getTime() + 24 * 60 * 60 * 1000);
+      } else {
+        tomorrow = new Date(new Date(lastDay).getTime() + 24 * 60 * 60 * 1000 * 2);
+      }
+      const tomorrowFormatted = `${tomorrow.getFullYear()}-${tomorrow.getMonth() + 1}-${tomorrow.getDate()}`;
+
+      // concat new data point and show up to latest 15 data points
+      const newData = jobGraphDataState.concat([{
+        successful: Math.floor(Math.random() * Math.floor(6)),
+        failed: Math.floor(Math.random() * Math.floor(6)),
+        created: tomorrowFormatted
+      }]).slice(-15);
+
+      setJobGraphDataState(newData);
+    }, 3000);
+  }, [jobGraphDataState]);
+
   return (
     <Fragment>
       <ScreenHeader
@@ -122,41 +92,6 @@ function Dashboard({ i18n }) {
         breadcrumbConfig={{ '/home': i18n._(t`Dashboard`) }}
       />
       <PageSection>
-        <Counts>
-          <Count
-            link="/hosts"
-            data={countData?.hosts?.total}
-            label={i18n._(t`Hosts`)}
-          />
-          <Count
-            failed
-            link="/hosts?host.last_job_host_summary__failed=true"
-            data={countData?.hosts?.failed}
-            label={i18n._(t`Failed hosts`)}
-          />
-          <Count
-            link="/inventories"
-            data={countData?.inventories?.total}
-            label={i18n._(t`Inventories`)}
-          />
-          <Count
-            failed
-            link="/inventories?inventory.inventory_sources_with_failures__gt=0"
-            data={countData?.inventories?.inventory_failed}
-            label={i18n._(t`Inventory sync failures`)}
-          />
-          <Count
-            link="/projects"
-            data={countData?.projects?.total}
-            label={i18n._(t`Projects`)}
-          />
-          <Count
-            failed
-            link="/projects?project.status__in=failed,canceled"
-            data={countData?.projects?.failed}
-            label={i18n._(t`Project sync failures`)}
-          />
-        </Counts>
       </PageSection>
       <MainPageSection>
         <div className="spacer">
@@ -241,7 +176,7 @@ function Dashboard({ i18n }) {
                   <LineChart
                     height={390}
                     id="d3-line-chart-root"
-                    data={jobGraphData}
+                    data={jobGraphDataState}
                   />
                 </CardBody>
               </Fragment>
